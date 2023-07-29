@@ -16,6 +16,7 @@ CREATE TABLE lumi.cliente (
     "cli_icms_total" MONEY,
     "cli_public" VARCHAR,
     "cli_total" MONEY,
+    "cli_file_name" VARCHAR,
     "cli_created_at" TIMESTAMP(6),
     "cli_updated_at" TIMESTAMP(6),
     "cli_deleted_at" TIMESTAMP(6),
