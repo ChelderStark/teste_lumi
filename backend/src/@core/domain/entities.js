@@ -5,7 +5,9 @@ const { v4: uuidv4 } = require('uuid');
 const client = [
   'cli_id',
   'cli_name',
+  'cli_number',
   'cli_month',
+  'cli_year',
   'cli_due_date',
   'cli_ee_kwh',
   'cli_ee_unitvalue',
@@ -34,11 +36,13 @@ class ClienteEntity {
       clientValues.push(filename)
       clientValues.push(created_at)
 
-      const {rows} = await db.query(`INSERT INTO lumi.cliente (${client}) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`, clientValues)
+      console.log(clientValues);
+
+      const {rows} = await db.query(`INSERT INTO lumi.cliente (${client}) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *`, clientValues)
       return rows;
 
     }catch(err){
-
+      console.log(err);
     }
   }
 

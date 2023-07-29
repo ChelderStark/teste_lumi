@@ -3,7 +3,9 @@ CREATE SCHEMA lumi;
 CREATE TABLE lumi.cliente (
     "cli_id" UUID NOT NULL,
     "cli_name" VARCHAR,
+    "cli_number" VARCHAR,
     "cli_month" VARCHAR,
+    "cli_year" VARCHAR,
     "cli_due_date" VARCHAR,
     "cli_ee_kwh" VARCHAR,
     "cli_ee_unitvalue" VARCHAR,

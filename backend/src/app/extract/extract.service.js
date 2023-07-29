@@ -34,7 +34,9 @@ class ExtractService {
     return {
       id: datas.cli_id,
       name: datas.cli_name,
+      number_client: datas.cli_number,
       month: datas.cli_month,
+      year: datas.cli_year,
       due_date: datas.cli_due_date, //? vencimento
       ee_kwh: datas.cli_ee_kwh, //? energia eletrica
       ee_unitvalue: datas.cli_ee_unitvalue,

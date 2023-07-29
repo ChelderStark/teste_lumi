@@ -29,7 +29,9 @@ class PdfHelper {
 
     const fields = {
       client: { row: '3.103', index: 0 },
+      numberCli: {row: '9.272', index: 0},
       month: { row: '47.841', index: 0 },
+      year: { row: '47.841', index: 0 },
       dueDate: { row: '46.828', index: 2 },
       eeKWH: { row: '14.856', index: 2 },
       eeUnitValue: { row: '14.856', index: 3 },
@@ -53,6 +55,13 @@ class PdfHelper {
       data[key] = val;
     })
 
+    const date = data.month.split('/')
+    data.month = date[0]
+    data.year = date[1]
+
+    const number = data.numberCli.replace('  ', '').split(' ')
+    data.numberCli = number[0]
+
     data.eeKWH = data.eeKWH.trim()
     data.eeUnitValue = data.eeUnitValue.trim().replace('.', '').replace(',', '.')
     data.eeTotal = data.eeTotal.trim().replace('.', '').replace(',', '.')
@@ -73,3 +82,4 @@ class PdfHelper {
 }
 
 module.exports = PdfHelper;
+
