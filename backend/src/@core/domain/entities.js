@@ -42,20 +42,53 @@ class ClienteEntity {
       return rows;
 
     }catch(err){
-      console.log(err);
+      throw new Error(err)
     }
   }
 
-  async findAll(pag){
-    const qtd = 10
-    const pagNumber = (pag - 1 < 0 ? 0 : pag - 1) * qtd
-    console.log(pag);
-    const {rows} = await db.query(`SELECT * FROM lumi.cliente offset ${pagNumber} rows fetch next ${qtd} rows only`)
-    return rows;
+  async findAll(pag, client, year){
+    try{
+      let result = []
+      for(const cli of client){
+        const { rows } = await db.query(`SELECT cli_id, cli_month, cli_file_name FROM lumi.cliente WHERE cli_number = $1 and cli_year = $2`, [cli.cli_number, year])
+        result.push({
+          cli_name: cli.cli_name,
+          cli_number: cli.cli_number,
+          cli_year: cli.cli_year,
+          bills: rows
+        })
+      }
+      return result;
+    }catch(err){
+      throw new Error(err)
+    }
+  }
+
+  async findNumberCli(year){
+    try{
+      const {rows} = await db.query(`SELECT DISTINCT cli_number  FROM lumi.cliente`)
+      let client = []
+      for(const row of rows){
+        const cli = await this.clientYear(row.cli_number, year);
+        client.push(cli)
+      }
+      return client;
+    }catch(err){
+      throw new Error(err)
+    }
+  }
+
+  async clientYear(cli_number, year){
+    try{
+      const {rows} = await db.query(`SELECT cli_number, cli_name, cli_year FROM lumi.cliente WHERE cli_number = $1 and cli_year = $2`, [cli_number, year])
+      return rows[0];
+    }catch(err){
+      throw new Error(err)
+    }
   }
 
   async countTotalRows(){
-    const {rows} = await db.query()
+    const {rows} = await db.query(`SELECT COUNT(*) AS total FROM lumi.cliente`)
     return rows;
   }
 
@@ -64,7 +97,7 @@ class ClienteEntity {
       const {rows} = await db.query(`SELECT cli_file_name from lumi.cliente WHERE cli_id = $1`, [cli_id])
       return rows;
     }catch(err){
-
+      throw new Error(err)
     }
 
   }

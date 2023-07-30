@@ -17,17 +17,35 @@ class ExtractService {
     return this.build(created[0]);
   }
 
-  async getAll(pag){
-    const clients = await this.client.findAll(pag)
-    return Promise.all(clients.map(async (data) => {return this.build(data)}));
+  async getAll(pag, year){
+    const client = await this.client.findNumberCli(year)
+    console.log(client);
+    const clients = await this.client.findAll(pag, client, year)
+    return Promise.all(clients.map(async (data) => {return this.buildGetAll(data)}));
   }
 
   async download(cli_id){
-
     const filename = await this.client.findOne(cli_id)
     const filePath = process.env.PATH_FILES + filename[0].cli_file_name
-
     return filePath;
+  }
+
+  buildGetAll(datas){
+    const res = []
+    for(const data of datas.bills){
+      res.push({
+        id: data.cli_id,
+        month: data.cli_month,
+        filename: data.cli_file_name,
+      })
+    }
+
+    return {
+      name: datas.cli_name,
+      number_client: datas.cli_number,
+      year: datas.cli_year,
+      bills: res,
+    }
   }
 
   build(datas) {

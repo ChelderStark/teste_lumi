@@ -13,10 +13,11 @@ const extractFile = async (req, res) => {
 const getAll = async (req, res) => {
   try{
     const pag = req.query.pag;
+    const year = req.query.year
 
     if(!pag) return res.status(400).json({message: 'É necessário o número da página: pag'})
 
-    const resp = await service.getAll(pag)
+    const resp = await service.getAll(pag,year)
     return res.status(200).json({data: resp})
   }catch(err){
     return res.status(500).json(err)
